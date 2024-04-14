@@ -18,6 +18,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  nix.settings.experimental-features = ["nix-command" "flakes"];
+
   networking.hostName = "bowhead"; # Define your hostname.
   # Pick only one of the below networking options.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
@@ -50,15 +52,40 @@
   services.printing.enable = true;
 
   # Enable sound.
-  sound.enable = true;
-  #hardware.pipewire.enable = true;
+  sound.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    wireplumber.enable = true;
+  };
+
+  # Bluetooth
+  hardware.bluetooth.enable = true;
+
+  # NVidia
+  #hardware.nvidia = {
+  #  #package = config.boot.kernelPackages.nvidiaPackages.beta;
+  #  open = false;
+  #  nvidiaSettings = false;
+  #  modesetting.enable = true;
+  #  powerManagement = {
+  #    enable = false;
+  #    finegrained = false;
+  #  };
+  #  prime = {
+  #    offload.enable = true;
+  #  };
+  #};
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver = {
-    libinput.enable = false;
-    autorun = false;
-    exportConfiguration = true;
-    displayManager.startx.enable = true;
+    libinput.enable = true;
+    #autorun = false;
+    #exportConfiguration = true;
+    #displayManager.startx.enable = true;
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -77,6 +104,18 @@
       mypy
       zellij
       rofi
+      picom
+      haskellPackages.greenclip
+      kubeswitch
+      k9s
+      kubectl
+      dunst
+      mpv
+      gimp
+      zathura
+      nitrogen
+      tldr
+      trash-cli
     ];
   
   };
@@ -84,6 +123,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    vim
     neovim
     curl
     stow
@@ -93,8 +133,20 @@
     zoxide
     fzf
     autorandr
-    python3Packages.pyautogui 
+    phinger-cursors
+    lxappearance
+    nordic
+    pavucontrol
+    xfce.thunar
+    xfce.thunar-archive-plugin
+    jq
+    yq
+    go
+    acpi
+    killall
+    htop
   ];
+
   fonts.packages = with pkgs; [
     nerdfonts
     fira-code-nerdfont
@@ -116,15 +168,21 @@
   };
 
   # List services that you want to enable:
+  services.openssh.enable = true;
 
-  # Enable the OpenSSH daemon.
-  #services.openssh.enable = true;
+  services.flatpak.enable = true;
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = with pkgs; [xdg-desktop-portal-gtk];
+  xdg.portal.config.common.default = ["gtk"];
+
+  services = {
+    ntp.enable = true;
+    blueman.enable = true;
+  };
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.allowedTCPPorts = [ 22 ];
+  networking.firewall.enable = true;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
