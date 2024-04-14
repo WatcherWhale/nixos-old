@@ -116,8 +116,10 @@
       nitrogen
       tldr
       trash-cli
+      go
+      nodejs
     ];
-  
+
   };
 
   # List packages installed in system profile. To search, run:
@@ -142,10 +144,10 @@
     xfce.thunar-archive-plugin
     jq
     yq
-    go
     acpi
     killall
     htop
+    unzip
   ];
 
   fonts.packages = with pkgs; [
