@@ -139,6 +139,7 @@
     phinger-cursors
     lxappearance
     nordic
+    flat-remix-icon-theme
     pavucontrol
     xfce.thunar
     xfce.thunar-archive-plugin
