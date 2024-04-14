@@ -91,7 +91,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.watcherwhale = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" "network" "power" "audio" "disk" "input" "kvm" "games" ];
+    extraGroups = [ "wheel" "video" "network" "power" "audio" "disk" "input" "kvm" "games" ]; 
     packages = with pkgs; [
       firefox
       tree
