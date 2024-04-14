@@ -11,8 +11,9 @@
 
     nix.settings.experimental-features = ["nix-command" "flakes"];
 
-    networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
-    time.timeZone = "Europe/Brussels";
+    networking.networkmanager.enable = true;
+
+    hardware.bluetooth.enable = true;
 
     sound.enable = false;
     security.rtkit.enable = true;
@@ -24,10 +25,6 @@
         wireplumber.enable = true;
     };
 
-    users.users.watcherwhale = {
-        isNormalUser = true;
-        extraGroups = [ "wheel" "video" "network" "power" "audio" "disk" "input" "kvm" "games" ];
-    };
     environment.systemPackages = with pkgs; [
         gcc
         vim
@@ -59,15 +56,43 @@
         nerdfonts
         fira-code-nerdfont
     ];
+
+    # Fix shebangs
     system.activationScripts.binbash = {
         deps = ["binsh"];
         text = ''
             ln -sf /bin/sh /bin/bash
+            ln -sf /bin/sh /usr/bin/bash
         '';
     };
 
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = with pkgs; [xdg-desktop-portal-gtk];
+  xdg.portal.config.common.default = ["gtk"];
+
   programs.gnupg.agent = {
     enable = true;
-    enablesshsupport = true;
+    enableSSHSupport = true;
   };
+
+  services = {
+    ntp.enable = true;
+    flatpak.enable = true;
+    blueman.enable = true;
+    printing.enable = true;
+  };
+
+  services.openssh.enable = true;
+
+  networking.firewall.allowedTCPPorts = [ ];
+  networking.firewall.enable = true;
+
+
+
+
+
+
+
+  # DO NOT TOUCH !!!!!!
+  system.stateVersion = "23.11"; # Did you read the comment?
 };
