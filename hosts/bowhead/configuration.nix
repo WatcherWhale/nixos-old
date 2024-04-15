@@ -10,6 +10,7 @@
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.default
       ../../modules/nixos/system.nix
+      ../../modules/homes/default.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -22,4 +23,4 @@
   # Configure keymap in X11
   services.xserver.xkb.layout = "us";
   services.xserver.xkb.options = "eurosign:e,caps:escape";
-};
+}

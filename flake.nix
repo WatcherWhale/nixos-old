@@ -15,6 +15,7 @@
         bowhead = nixpkgs.lib.nixosSystem {
             specialArgs = {inherit inputs;};
             modules = [
+              inputs.home-manager.nixosModules.default
               ./hosts/bowhead/configuration.nix
             ];
         };
